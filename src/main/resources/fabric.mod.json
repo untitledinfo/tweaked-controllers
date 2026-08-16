@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "id": "ctc",
+  "version": "${version}",
+  "name": "Tweaked Controllers",
+  "description": "Adds tweakable controller blocks with an open API for other mods to register and hook into custom controller behavior.",
+  "authors": [
+    "Firepdx"
+  ],
+  "contact": {
+    "homepage": "https://pgcmc.fun",
+    "sources": "https://github.com/Firepdx01/Tweaked-Controllers"
+  },
+  "license": "MIT",
+  "icon": "assets/ctc/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.firepdx.ctc.TweakedControllers"
+    ],
+    "client": [
+      "com.firepdx.ctc.client.TweakedControllersClient"
+    ]
+  },
+  "mixins": [
+    "ctc.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.16.9",
+    "minecraft": "~1.21.1",
+    "java": ">=21",
+    "fabric-api": "*"
+  },
+  "suggests": {
+    "modmenu": "*"
+  }
+}

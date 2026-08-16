@@ -1,0 +1,5 @@
+{
+  "block.ctc.controller_block": "Controller Block",
+  "itemGroup.ctc": "Tweaked Controllers",
+  "ctc.api.no_behavior": "No controller behavior registered for this block"
+}

@@ -1,0 +1,6 @@
+{
+  "variants": {
+    "powered=false": { "model": "ctc:block/controller_block" },
+    "powered=true": { "model": "ctc:block/controller_block_on" }
+  }
+}
