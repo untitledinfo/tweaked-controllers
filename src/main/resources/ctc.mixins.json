@@ -1,11 +1,17 @@
 {
-  "required": true,
-  "minVersion": "0.8",
-  "package": "com.firepdx.ctc.mixin",
-  "compatibilityLevel": "JAVA_21",
-  "mixins": [],
-  "client": [],
-  "injectors": {
-    "defaultRequire": 1
-  }
+	"required": true,
+	"package": "com.firepdx.ctc.mixin",
+	"compatibilityLevel": "JAVA_21",
+	"refmap": "ctc.refmap.json",
+	"injectors": {
+		"defaultRequire": 1
+	},
+	"mixins": [
+        "KineticBlockEntityMixin"
+	],
+	"client": [
+		"client.TitleScreenMixin",
+		"client.PauseScreenMixin"
+	],
+	"minVersion": "0.8"
 }

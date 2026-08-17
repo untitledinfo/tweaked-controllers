@@ -3,23 +3,28 @@
   "id": "ctc",
   "version": "${version}",
   "name": "Tweaked Controllers",
-  "description": "Adds tweakable controller blocks with an open API for other mods to register and hook into custom controller behavior.",
+  "description": "A Create addon that adds a way of controlling contraptions using an advanced controller. Fabric port of Create: Tweaked Controllers by getItemFromBlock, forked and ported by Firepdx.",
   "authors": [
-    "Firepdx"
+    "getItemFromBlock (original NeoForge mod)",
+    "Firepdx (Fabric port)"
   ],
   "contact": {
-    "homepage": "https://pgcmc.fun",
-    "sources": "https://github.com/Firepdx01/Tweaked-Controllers"
+    "homepage": "https://github.com/getItemFromBlock/Create-Tweaked-Controllers",
+    "sources": "https://github.com/getItemFromBlock/Create-Tweaked-Controllers",
+    "issues": "https://github.com/getItemFromBlock/Create-Tweaked-Controllers/issues"
   },
   "license": "MIT",
-  "icon": "assets/ctc/icon.png",
+  "icon": "logo.png",
   "environment": "*",
   "entrypoints": {
     "main": [
-      "com.firepdx.ctc.TweakedControllers"
+      "com.firepdx.ctc.CreateTweakedControllers"
     ],
     "client": [
-      "com.firepdx.ctc.client.TweakedControllersClient"
+      "com.firepdx.ctc.client.CreateTweakedControllersClient"
+    ],
+    "modmenu": [
+      "com.firepdx.ctc.client.CtcModMenuIntegration"
     ]
   },
   "mixins": [
@@ -29,9 +34,11 @@
     "fabricloader": ">=0.16.9",
     "minecraft": "~1.21.1",
     "java": ">=21",
-    "fabric-api": "*"
+    "fabric-api": "*",
+    "create": ">=6.0.0"
   },
   "suggests": {
+    "computercraft": "*",
     "modmenu": "*"
   }
 }

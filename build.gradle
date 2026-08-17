@@ -1,5 +1,5 @@
 plugins {
-    id 'fabric-loom' version '1.10.1'
+    id 'fabric-loom' version '1.9-SNAPSHOT'
     id 'maven-publish'
 }
 
@@ -11,10 +11,14 @@ base {
 }
 
 repositories {
-    // Add repositories for other mods you depend on for mod support here.
-    // e.g. maven { url = 'https://maven.terraformersmc.com/releases/' } // ModMenu
-    // e.g. maven { url = 'https://maven.shedaniel.me/' }               // Cloth Config / REI
     mavenCentral()
+    // Create's Fabric maven. VERIFY this URL/coordinate against the current
+    // Create-Fabric release before building — repo layout changes between versions.
+    maven { url = 'https://maven.createmod.net/' ; name = 'Create' }
+    // CC: Tweaked's maven.
+    maven { url = 'https://squiddev.cc/maven/' ; name = 'CC: Tweaked' }
+    // Registrate (Create's registration helper) if the Fabric build still depends on it.
+    maven { url = 'https://maven.tterrag.com/' ; name = 'tterrag maven' }
 }
 
 loom {
@@ -28,25 +32,28 @@ loom {
     }
 }
 
-fabricApi {
-    configureDataGeneration()
-}
-
 dependencies {
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
     mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-    // ---- Optional soft-dependencies for cross-mod support ----
-    // Uncomment and add the matching repository above to compile against another mod's API.
-    // modCompileOnly "curse.maven:some-mod-123456:7891011"
+    // --- Create (hard dependency; this mod is a Create addon) ---
+    // ARTIFACT COORDINATE UNVERIFIED — swap in the real one from Create's
+    // published Fabric maven / Modrinth "Featured" file for 1.21.1 before building.
+    modImplementation "com.simibubi.create:create-fabric-1.21.1:${project.create_version}"
+
+    // --- CC: Tweaked (soft dependency, ComputerCraft compat) ---
+    // ARTIFACT COORDINATE UNVERIFIED — same caveat as above.
+    modCompileOnly "cc.tweaked:cc-tweaked-1.21.1-fabric-api:${project.cc_tweaked_version}"
+    modRuntimeOnly "cc.tweaked:cc-tweaked-1.21.1-fabric:${project.cc_tweaked_version}"
+
+    // --- ModMenu (optional, lets our config screen appear in Mod Menu) ---
+    modCompileOnly "com.terraformersmc:modmenu:11.0.3"
 }
 
 processResources {
     inputs.property "version", project.version
-
     filesMatching("fabric.mod.json") {
         expand "version": project.version
     }
@@ -62,12 +69,6 @@ java {
     targetCompatibility = JavaVersion.VERSION_21
 }
 
-jar {
-    from("LICENSE") {
-        rename { "${it}_${project.base.archivesName.get()}" }
-    }
-}
-
 publishing {
     publications {
         create("mavenJava", MavenPublication) {
@@ -75,7 +76,5 @@ publishing {
             from components.java
         }
     }
-    repositories {
-        // Add your own maven repo here for publishing the API jar to other devs.
-    }
+    repositories { }
 }

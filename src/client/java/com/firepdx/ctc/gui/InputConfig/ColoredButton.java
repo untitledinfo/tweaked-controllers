@@ -1,0 +1,36 @@
+package com.firepdx.ctc.gui.InputConfig;
+
+import org.joml.Vector3f;
+
+import com.mojang.blaze3d.systems.RenderSystem;
+
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.network.chat.Component;
+import net.minecraft.util.Mth;
+
+public class ColoredButton extends Button
+{
+    public Vector3f color;
+
+    public ColoredButton(int p_93721_, int p_93722_, int p_93723_, int p_93724_, Component p_93725_, OnPress p_93726_, Vector3f color)
+    {
+        super(p_93721_, p_93722_, p_93723_, p_93724_, p_93725_, p_93726_, DEFAULT_NARRATION);
+        this.color = color;
+    }
+
+    @Override
+    public void renderWidget(GuiGraphics graphics, int x, int y, float partialTicks)
+    {
+        Minecraft minecraft = Minecraft.getInstance();
+        graphics.setColor(color.x, color.y, color.z, this.alpha);
+        RenderSystem.enableBlend();
+        RenderSystem.enableDepthTest();
+        graphics.blitSprite(SPRITES.get(this.active, this.isHoveredOrFocused()), this.getX(), this.getY(), this.getWidth(), this.getHeight());
+        graphics.setColor(color.x, color.y, color.z, 1.0F);
+        int i = getFGColor();
+        this.renderString(graphics, minecraft.font, i | Mth.ceil(this.alpha * 255.0F) << 24);
+    }
+    
+}
