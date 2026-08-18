@@ -6,4 +6,10 @@ pluginManagement {
     }
 }
 
+plugins {
+    // Provision the Java 21 compiler required by Minecraft 1.21.11 when it is
+    // not already installed on the machine running Gradle.
+    id 'org.gradle.toolchains.foojay-resolver-convention' version '1.0.0'
+}
+
 rootProject.name = 'tweaked-controllers'
