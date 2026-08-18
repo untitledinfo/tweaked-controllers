@@ -17,9 +17,9 @@ import net.minecraft.world.item.ItemStack;
  */
 public class ModMenuTypes
 {
-    public static final MenuTypeEntry<ExtendedScreenHandlerType<TweakedLinkedControllerMenu, ItemStack>> TWEAKED_LINKED_CONTROLLER = register();
+    public static final MenuTypeEntry<ExtendedScreenHandlerType<TweakedLinkedControllerMenu, ItemStack>> TWEAKED_LINKED_CONTROLLER = registerType();
 
-    private static MenuTypeEntry<ExtendedScreenHandlerType<TweakedLinkedControllerMenu, ItemStack>> register()
+    private static MenuTypeEntry<ExtendedScreenHandlerType<TweakedLinkedControllerMenu, ItemStack>> registerType()
     {
         ResourceLocation id = CreateTweakedControllers.asResource("tweaked_linked_controller");
         ExtendedScreenHandlerType<TweakedLinkedControllerMenu, ItemStack> type = new ExtendedScreenHandlerType<>(
