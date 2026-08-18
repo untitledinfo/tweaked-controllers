@@ -1,5 +1,5 @@
 plugins {
-    id 'fabric-loom' version '1.9-SNAPSHOT'
+    id 'fabric-loom' version '1.14.10'
     id 'maven-publish'
 }
 
@@ -12,13 +12,16 @@ base {
 
 repositories {
     mavenCentral()
-    // Create's Fabric maven. VERIFY this URL/coordinate against the current
-    // Create-Fabric release before building — repo layout changes between versions.
-    maven { url = 'https://maven.createmod.net/' ; name = 'Create' }
-    // CC: Tweaked's maven.
-    maven { url = 'https://squiddev.cc/maven/' ; name = 'CC: Tweaked' }
-    // Registrate (Create's registration helper) if the Fabric build still depends on it.
-    maven { url = 'https://maven.tterrag.com/' ; name = 'tterrag maven' }
+
+    // Modrinth's Maven — used for Create Fly, ModMenu, and CC: Tweaked below.
+    // exclusiveContent restricts it to only the maven.modrinth group so it doesn't
+    // shadow-resolve unrelated artifacts. See https://support.modrinth.com/en/articles/8801191
+    exclusiveContent {
+        forRepository {
+            maven { name = 'Modrinth'; url = 'https://api.modrinth.com/maven' }
+        }
+        filter { includeGroup 'maven.modrinth' }
+    }
 }
 
 loom {
@@ -38,18 +41,21 @@ dependencies {
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-    // --- Create (hard dependency; this mod is a Create addon) ---
-    // ARTIFACT COORDINATE UNVERIFIED — swap in the real one from Create's
-    // published Fabric maven / Modrinth "Featured" file for 1.21.1 before building.
-    modImplementation "com.simibubi.create:create-fabric-1.21.1:${project.create_version}"
+    // --- Create Fly (hard dependency; this mod is a Create addon) ---
+    // Create has NO official Fabric build for 1.21.1, and its official Fabric fork
+    // never passed that version at all. Create Fly (https://modrinth.com/mod/create-fly)
+    // is the actively maintained community fork this now targets instead — confirm
+    // you're on its latest 1.21.11 build at build time, coordinates drift often:
+    // https://modrinth.com/mod/create-fly/versions
+    modImplementation "maven.modrinth:create-fly:${project.create_fly_version}"
 
     // --- CC: Tweaked (soft dependency, ComputerCraft compat) ---
-    // ARTIFACT COORDINATE UNVERIFIED — same caveat as above.
-    modCompileOnly "cc.tweaked:cc-tweaked-1.21.1-fabric-api:${project.cc_tweaked_version}"
-    modRuntimeOnly "cc.tweaked:cc-tweaked-1.21.1-fabric:${project.cc_tweaked_version}"
+    // Version string is a best guess — confirm the real 1.21.11 version at
+    // https://modrinth.com/mod/cc-tweaked/versions before building.
+    modCompileOnly "maven.modrinth:cc-tweaked:${project.cc_tweaked_version}"
 
     // --- ModMenu (optional, lets our config screen appear in Mod Menu) ---
-    modCompileOnly "com.terraformersmc:modmenu:11.0.3"
+    modCompileOnly "maven.modrinth:modmenu:17.0.0-beta.2"
 }
 
 processResources {
